@@ -1,0 +1,31 @@
+# Python Virtual Environment
+.venv/
+
+# Python Cache files
+__pycache__/
+*.py[cod]
+
+# OpenTofu/Terraform state files (sensitive!)
+*.tfstate
+*.tfstate.*
+
+# OpenTofu/Terraform lock file (often committed, but ignoring for simplicity with local state)
+.terraform.lock.hcl
+
+# Environment variables file (contains secrets!)
+.env    
+
+# Large Model files (Uncomment the line below if your model files are large)
+model/
+
+# VS Code specific settings (optional)
+.vscode/
+
+# Build artifacts (optional)
+build/
+dist/
+*.egg-info/
+
+# OS-specific files (optional)
+.DS_Store
+Thumbs.db
