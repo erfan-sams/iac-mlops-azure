@@ -1,0 +1,22 @@
+# src/requirements.txt
+
+# Core Azure ML inference server
+azureml-inference-server-http
+
+# ML Framework & Ecosystem (Match PyTorch/CUDA version with base image later)
+# Check CUDA version of base image (e.g., 11.8 for the example image)
+# Find compatible torch version from https://pytorch.org/get-started/previous-versions/
+torch==2.6.0+cu124 --index-url https://download.pytorch.org/whl/cu124
+transformers==4.51.3 # Or latest supporting Gemma 3
+accelerate==1.6.0   # Or latest
+bitsandbytes==0.45.5 # Or latest compatible
+
+# Tokenizer related
+sentencepiece
+protobuf
+
+# Optional: For environment variable loading if needed (dotenv)
+# python-dotenv
+
+# Optional: For better logging config (if desired)
+# pythonjsonlogger

@@ -15,8 +15,6 @@ __pycache__/
 # Environment variables file (contains secrets!)
 .env    
 
-# Large Model files (Uncomment the line below if your model files are large)
-model/
 
 # VS Code specific settings (optional)
 .vscode/
