@@ -1,0 +1,19 @@
+# environment/environment.yml
+
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+# Choose a distinct name indicating custom build and CUDA version
+name: gemma3-custom-py311-pt26-cu124
+# version: 1
+
+# --- Base Image ---
+# *** CRITICAL: Select NVIDIA base image with compatible DRIVERS for CUDA 12.4 ***
+# Check Docker Hub (nvidia/cuda) for the latest appropriate tags.
+# Using a -devel image is recommended for compiling dependencies.
+image: nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 # <-- EXAMPLE - VERIFY EXACT TAG on Docker Hub
+
+# --- Conda Environment File ---
+# Point to the conda dependencies file configured for CUDA 12.4 / PT 2.6 via pip
+conda_file: conda_dependencies.yaml
+
+# --- Optional: Description ---
+description: Custom environment for Gemma 3 using base NVIDIA CUDA 12.4 image, Python 3.11, PyTorch 2.6 (+cu124 via pip) installed via Conda.
