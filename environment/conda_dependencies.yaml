@@ -26,7 +26,7 @@ dependencies:
   # --- Pip Packages ---
   - pip:
       # Install PyTorch using pip and index URL for specific CUDA build
-      - torch==2.6.0+cu124 --index-url https://download.pytorch.org/whl/cu124 # <-- Your requirement
+      - torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
 
       # Core Azure ML dependency
       - azureml-inference-server-http
