@@ -1,0 +1,6 @@
+# model_asset.yml
+$schema: https://azuremlschemas.azureedge.net/latest/model.schema.json
+name: gemma-3-1b-it-qat-asset # Consistent name for the asset
+version: 1
+path: azureml://datastores/models_storage/paths/gemma_3_1b_it_qat_q4_0_unquantized_base_files/v1 # Verify storage path!
+description: "Base files for Gemma 3 1B IT QAT uploaded previously, registered via CLI."
