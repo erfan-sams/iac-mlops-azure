@@ -1,24 +1,12 @@
 # environment/conda_dependencies.yaml
 
-name: custom-py311-pt26-cu124-env # Reflects CUDA 12.4
+name: custom-transformers-env # Reflects CUDA 12.4
 channels:
-  - pytorch
-  - nvidia # Crucial for CUDA toolkit
   - conda-forge
   - defaults
 dependencies:
   # --- Core Python ---
-  - python=3.11.4
-
-  # --- CUDA Toolkit (Pinning to match PyTorch build - important!) ---
-  # Requesting 12.4 - ensure this package version exists on the nvidia channel
-  - nvidia::cuda-toolkit=12.4 # <-- UPDATED to 12.4
-
-  # --- PyTorch (Specify build for CUDA 12.4) ---
-  # Using pip for torch install is often more reliable for specific index URLs
-  # Comment out conda pytorch lines if using pip below
-  # - pytorch::pytorch=2.6.0=*cuda12.4* # Might be hard for conda to find exact build
-  # - pytorch::pytorch-cuda=12.4
+  - python=3.10
 
   # --- Pip ---
   - pip
@@ -26,19 +14,19 @@ dependencies:
   # --- Pip Packages ---
   - pip:
       # Install PyTorch using pip and index URL for specific CUDA build
-      - torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
-
+      - torch==2.2.0
       # Core Azure ML dependency
       - azureml-inference-server-http
 
       # Transformers and ecosystem (use versions compatible with PT 2.6)
       - transformers==4.51.3 # Check latest compatible
       - accelerate==1.6.0  # Check latest compatible
-      - bitsandbytes==0.45.5 # Check BnB compatibility with PT 2.6 / CUDA 12.4
+      - numpy==1.26.4
+      # - bitsandbytes==0.45.5 # Check BnB compatibility with PT 2.6 / CUDA 12.4
 
       # Tokenizer dependencies
-      - sentencepiece
-      - protobuf
+      # - sentencepiece
+      # - protobuf
 
       # Optional
       # - Pillow

@@ -1,50 +1,29 @@
-# environment/Dockerfile - CORRECTED ENV BLOCK
+# environment/Dockerfile.pytorch251 (or environment/Dockerfile)
 
-# Start from the desired NVIDIA base image
-ARG BASE_IMAGE=nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 # Verify this tag!
-FROM ${BASE_IMAGE}
+# Start FROM the Azure ML curated environment
+# !!! REPLACE with the exact path found in Azure ML Studio !!!
+FROM mcr.microsoft.com/azureml/curated/acpt-pytorch-2.2-cuda12.1:33
 
-# Set environment variables to prevent interactive prompts during installs
-ENV DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    PATH="/opt/miniconda/bin:${PATH}" 
+# Upgrade pip first
+RUN pip install --upgrade pip
 
-# Install necessary OS packages (wget, bzip2 for conda installer, build tools)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget \
-    bzip2 \
-    ca-certificates \
-    build-essential \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install PyTorch 2.5.1 stack for CUDA 12.1
+RUN pip install --no-cache-dir \
+    torch==2.5.1 \
+    torchvision==0.20.1 \
+    torchaudio==2.5.1 \
+    --index-url https://download.pytorch.org/whl/cu121
 
-# Download and install Miniconda (adjust version if needed)
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/miniconda && \
-    rm ~/miniconda.sh && \
-    conda clean -aqy
-
-# Initialize Conda for bash shells
-RUN conda init bash
-
-# Copy your Conda environment definition file into the image
-COPY conda_dependencies.yaml .
-
-# Create the Conda environment from the file
-# Note: This uses the name defined inside conda_dependencies.yaml
-# Fix permissions - sometimes needed in Azure ML
-RUN conda env create -f conda_dependencies.yaml && \
-    conda clean -aqy && \
-    rm -rf "$HOME/.cache/pip" && \
-    find /opt/miniconda/envs/ -type d -exec chmod 755 {} \; && \
-    find /opt/miniconda/envs/ -type f -exec chmod 644 {} \;
-
-# Optional: Set the default Conda environment to activate
-# SHELL ["conda", "run", "-n", "custom-py311-pt26-cu124-env", "/bin/bash", "-c"]
-
-# Final cleanup (optional)
-RUN find /opt/miniconda/ -type d -name __pycache__ -exec rm -rf {} +
-
-# Set a default command or entrypoint if needed, but often Azure ML handles this
-# ENTRYPOINT ["/bin/bash"]
+# Install other dependencies needed by score.py
+# Use the versions compatible with PyTorch 2.5.1 and your Gemma model
+# Get versions from conda_dependencies.yaml pip section,
+# but verify compatibility with PT 2.5.1
+RUN pip install --no-cache-dir \
+    transformers==4.51.3 \
+    accelerate==1.6.0 \
+    azureml-inference-server-http \
+    sentencepiece \
+    protobuf 
+    # --- IMPORTANT ---
+    # Add ANY OTHER libraries your score.py imports here
+    # Do NOT install bitsandbytes if you are deploying to CPU only.

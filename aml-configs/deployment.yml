@@ -1,16 +1,20 @@
 # deployment.yml
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
 name: blue
-endpoint_name: ep-gemma1b-qat # Match endpoint name
+endpoint_name: ep-gemma1b-qat-v21 # Match endpoint name
 
 # --- Reference REGISTERED assets ---
-model: azureml:gemma-3-1b-it-qat-asset:1 
-environment: azureml:gemma3-custom-py311-pt26-cu124:1
+# model: azureml:gemma-3-1b-it-qat-asset:1 
+environment: 
+  image: mcr.microsoft.com/azureml/curated/lightgbm-3.3:61
+  conda_file: ../environment/conda_dependencies.yaml
 
 code_configuration:
   code: ../src # Path relative to where you run az ml command
-  scoring_script: score.py
-instance_type: Standard_NC4as_T4_v3 # Your chosen GPU SKU
+  scoring_script: score_distilbert.py
+instance_type: Standard_F4s_v2 # Your chosen GPU SKU
 
 # --- Use instance_count instead of scale_settings ---
 instance_count: 1 # Deploy exactly one instance manually
+
+request_settings: {request_timeout_ms: 180000} # Keep or increase timeout for   

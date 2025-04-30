@@ -1,15 +1,8 @@
-# environment/environment.yml - UPDATED FOR DOCKER BUILD CONTEXT
-
+# environment/environment.yml
 $schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
-name: gemma3-custom-py311-pt26-cu124 # Keep the same target name
-# version: 7
-
-# --- Use Docker build context ---
+name: pytorch251-on-acpt-base # Choose a new, descriptive name
+version: 4                   # Start with version 1
+description: Based on acpt-pytorch-2.2-cuda12.1, upgraded to PyTorch 2.5.1 (cu121) and project dependencies via pip.
 build:
-  path: . # Build context is the current directory (environment/)
-  dockerfile_path: Dockerfile # Specify the Dockerfile name
-
-# --- Optional: Description ---
-description: Custom environment for Gemma 3 built via Dockerfile (py311/pt26/cu124).
-
-# The 'image' and 'conda_file' properties are NOT used when 'build' is specified.
+  path: . # Build context is the directory containing this YAML and the Dockerfile
+  dockerfile_path: Dockerfile # The name of the Dockerfile you just created

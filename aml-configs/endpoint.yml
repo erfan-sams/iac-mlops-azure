@@ -1,4 +1,4 @@
 # endpoint.yml
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineEndpoint.schema.json
-name: ep-gemma1b-qat # Choose a unique endpoint name
+name: ep-gemma1b-qat-v21 # Choose a unique endpoint name
 auth_mode: key
