@@ -15,6 +15,10 @@ terraform {
 provider "azurerm" {
   subscription_id = "YOUR_SUBSCRIPTION_ID"
 
-  features {}
+  features {
+       resource_group {
+       prevent_deletion_if_contains_resources = false
+     }
+  }
   # Assumes login via Azure CLI (`az login`)
 }
